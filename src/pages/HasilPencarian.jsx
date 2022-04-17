@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-lone-blocks */
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faClock,
@@ -12,11 +12,14 @@ import axios from "axios";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import img from "../images/Infinity-1s-200px.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { dataMobilActions } from "../redux/actions/mobilActions";
 
 export default function HasilPencarian() {
-  const [dataMobil, setDataMobil] = useState([]);
+  const dataMobil = useSelector((state) => state?.dataMobilBinar?.data) //untuk mengambil data didalam state global
   const [loading, setLoading] = useState(false);
   const params = useParams();
+  const dispatch = useDispatch();
 
   const fetchData = async (tipeParams) => {
     setLoading(true);
@@ -26,9 +29,9 @@ export default function HasilPencarian() {
         console.log(err);
       });
     if (tipeParams == null) {
-      setDataMobil(responds.data);
+      dispatch(dataMobilActions(responds?.data))
     } else {
-      setDataMobil(responds.data.filter((obj) => obj.status === tipeParams));
+      dispatch(dataMobilActions(responds?.data?.filter((obj) => obj.status === tipeParams))); // ? itu untuk menampilkan data yang sudah ada, dan menunggu data yang akan di load 
     }
 
     setLoading(false);
@@ -50,7 +53,7 @@ export default function HasilPencarian() {
       fetchData(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    console.log(dataMobil);
+    console.log("hasil pencarian data:", dataMobil);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Memanggil fetchData sekali saja
   return (
@@ -173,15 +176,15 @@ export default function HasilPencarian() {
                   <div className="col-md-4">
                     <div className="card p-3 mb-4">
                       <img
-                        src={`${pencarian.image}`}
+                        src={`${pencarian?.image}`}
                         className="card-img-top"
                         alt="Mobil"
                       />
                       <div className="card-body">
-                        <p className="card-text">{pencarian.name}</p>
+                        <p className="card-text">{pencarian?.name}</p>
                         <p className="card-text font-weight-bold text-dark">
                           {" "}
-                          Rp {pencarian.price} / hari
+                          Rp {pencarian?.price} / hari
                         </p>
                         <p>
                           Lorem ipsum dolor sit amet consectetur adipisicing
@@ -212,7 +215,7 @@ export default function HasilPencarian() {
                           <div className="col-12">
                             <span>
                               <Link
-                                to={`/detail-paket/${pencarian.id}`}
+                                to={`/detail-paket/${pencarian?.id}`}
                                 className="btn btn-success w-100 py-2 text-center"
                               >
                                 Pilih Mobil

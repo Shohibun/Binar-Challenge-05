@@ -10,11 +10,14 @@ import {
 import { useParams } from "react-router";
 import axios from "axios";
 import img from "../images/Infinity-1s-200px.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { dataDetailMobilActions } from "../redux/actions/mobilActions";
 
 export default function DetailPaket() {
+  const dataMobil = useSelector((state) => state?.dataDetailMobilBinar?.data)
   const params = useParams();
+  const dispatch = useDispatch();
   console.log("ini params:", params);
-  const [dataMobil, setDataMobil] = useState([]);
   const [loading, setLoading] = useState(false);
   const fetchData = async () => {
     setLoading(true);
@@ -23,8 +26,7 @@ export default function DetailPaket() {
       .catch((err) => {
         console.log(err);
       });
-    setDataMobil(responds.data);
-    console.log(dataMobil);
+    dispatch(dataDetailMobilActions(responds.data))
     setLoading(false);
   };
   useEffect(() => {
