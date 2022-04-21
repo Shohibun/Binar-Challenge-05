@@ -3,4 +3,4 @@ export const actionsType = {
     SET_DETAIL_MOBIL: "SET_DETAIL_MOBIL"
 }
 
-//untuk deklarasi vavariabel
+//untuk deklarasi variabel

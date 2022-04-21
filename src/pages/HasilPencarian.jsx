@@ -29,7 +29,7 @@ export default function HasilPencarian() {
         console.log(err);
       });
     if (tipeParams == null) {
-      dispatch(dataMobilActions(responds?.data))
+      dispatch(dataMobilActions(responds?.data)) //actions
     } else {
       dispatch(dataMobilActions(responds?.data?.filter((obj) => obj.status === tipeParams))); // ? itu untuk menampilkan data yang sudah ada, dan menunggu data yang akan di load 
     }
